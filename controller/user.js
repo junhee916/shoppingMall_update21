@@ -40,7 +40,7 @@ exports.users_signup_user = (req, res) => {
         }
         else {
             userModel
-                .findOne({email : req.body.userEmail})
+                .findOne({email})
                 .then(user => {
                     if(user){
                         return res.json({
@@ -91,8 +91,9 @@ exports.users_login_user = (req, res) => {
 
     // email 유무 check => password 매칭 => 로그인 성공시 token 반환
 
+    const {email, password} = req.body
     userModel
-        .findOne({email : req.body.userEmail})
+        .findOne({email})
         .then(user => {
             if(!user){
                 return res.status(404).json({
@@ -100,7 +101,7 @@ exports.users_login_user = (req, res) => {
                 })
             }
             else{
-                bcrypt.compare(req.body.password, user.password, (err, isMatch) =>{
+                bcrypt.compare(password, user.password, (err, isMatch) =>{
                     if(err || isMatch === false){
                         return res.status(408).json({
                             msg : "password not match"
