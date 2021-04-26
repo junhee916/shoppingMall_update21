@@ -1,5 +1,6 @@
 const express = require('express')
 const productModel = require('../model/product')
+const checkAuth = require('../middleware/check-auth')
 const router = express.Router()
 
 // get products
@@ -29,7 +30,7 @@ router.get("/", (req, res) => {
 })
 
 // detail product
-router.get("/:productId", (req, res) => {
+router.get("/:productId", checkAuth, (req, res) => {
 
     const id = req.params.productId
 
@@ -59,7 +60,7 @@ router.get("/:productId", (req, res) => {
 })
 
 // register product
-router.post("/", (req, res) => {
+router.post("/", checkAuth, (req, res) => {
 
     const newProduct = new productModel(
         {
@@ -84,7 +85,7 @@ router.post("/", (req, res) => {
 })
 
 // update product
-router.patch("/:productId", (req, res) => {
+router.patch("/:productId", checkAuth, (req, res) => {
 
     const id = req.params.productId
 
@@ -114,7 +115,7 @@ router.patch("/:productId", (req, res) => {
 })
 
 // delete products
-router.delete("/", (req, res) => {
+router.delete("/", checkAuth, (req, res) => {
 
     productModel
         .remove()
@@ -131,7 +132,7 @@ router.delete("/", (req, res) => {
 })
 
 // detail delete product
-router.delete("/:productId", (req, res) => {
+router.delete("/:productId", checkAuth, (req, res) => {
 
     const id = req.params.productId
 
